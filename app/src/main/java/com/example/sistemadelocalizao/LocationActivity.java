@@ -80,6 +80,7 @@ public class LocationActivity extends AppCompatActivity {
             atualizaLocationTextView(null);
             Toast.makeText(this, "Atualizações de localização paradas", Toast.LENGTH_SHORT).show();
         }
+        finish();
     }
     public void atualizaLocationTextView(Location location) {
         StringBuilder s = new StringBuilder("Dados da Última Localização:\n");

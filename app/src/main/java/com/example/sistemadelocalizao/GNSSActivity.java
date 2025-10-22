@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,7 +89,7 @@ public class GNSSActivity extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
         int count = status.getSatelliteCount();
 
-        sb.append("Satélites visíveis: ").append("\n");
+        sb.append("Satélites visíveis: " + count).append("\n");
 
         for (int i=0; i < count; i++) {
             int svid = status.getSvid(i);
