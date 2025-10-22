@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sistema de Localização</string>
+    <string name="loc_indisponivel">Localização atual não disponível</string>
+    <string name="gnssTextView">Informações do Sistema de Satélite não disponíveis</string>
 </resources>

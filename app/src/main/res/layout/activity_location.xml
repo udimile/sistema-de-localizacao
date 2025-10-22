@@ -11,7 +11,7 @@
         android:id="@+id/textLocationInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Localização atual não disponível"
+        android:text="@string/loc_indisponivel"
         android:textSize="18sp"
         android:layout_centerInParent="true" />
 
