@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +31,8 @@ public class GNSSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gnss);
 
-        textViewGNSS = findViewById(R.id.textViewGNSS);
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        textViewGNSS = findViewById(R.id.textViewLocationManager);
 
         Button btnStartGNSS = findViewById(R.id.buttonStartGNSS);
         Button btnStopGNSS = findViewById(R.id.buttonStopGNSS);
@@ -52,6 +50,10 @@ public class GNSSActivity extends AppCompatActivity {
                 public void onLocationChanged(@NonNull Location location) {
                     atualizaLocationTextView(location);
                 }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) { }
+
                 @Override
                 public void onProviderEnabled(@NonNull String provider) { }
 
@@ -83,46 +85,22 @@ public class GNSSActivity extends AppCompatActivity {
         }
     }
 
-    private void atualizaGNSSTextView(GnssStatus status) {
-        if (textViewGNSS == null) return;
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        StringBuilder sb = new StringBuilder();
-        int count = status.getSatelliteCount();
-
-        sb.append("Satélites visíveis: " + count).append("\n");
-
-        for (int i=0; i < count; i++) {
-            int svid = status.getSvid(i);
-            float azimuth = status.getAzimuthDegrees(i);
-            float elevation = status.getElevationDegrees(i);
-            boolean used = status.usedInFix(i);
-            sb.append("SVID: ").append(svid)
-                    .append(" | Azimute: ").append(azimuth)
-                    .append(" | Elevação: ").append(elevation)
-                    .append(" | Usado no fix: ").append(used)
-                    .append("\n");
+        if (requestCode == REQUEST_LOCATION_UPDATES) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startGNSSUpdates();
+            } else {
+                Toast.makeText(this,
+                        "Sem permissão para mostrar atualizações do sistema GNSS",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
-        textViewGNSS.setText(sb.toString());
-    }
-    private void atualizaLocationTextView(Location location) {
-        TextView locationTextView=(TextView) findViewById(R.id.textViewLocationManager);
-        if(location==null) {
-            String s="Dados de Localização não disponíveis";
-            locationTextView.setText(s);
-            return;
-        }
-
-        String s = "Dados da última localização: \n";
-        if (location != null) {
-            s += "Latitude: " + location.getLatitude() + "\n";
-            s += "Longitude: " + location.getLongitude() + "\n";
-            s += "Altitude: " + location.getAltitude() + "\n";
-            s += "Rumo (radianos): " + location.getBearing() + "\n";
-            s += "Velocidade (m/s): " + location.getSpeed() + "\n";
-            s += "Precisão (m): " + location.getAccuracy() + "\n";
-        }
-
-        locationTextView.setText(s);
     }
 
     private void stopGNSSUpdates() {
@@ -142,21 +120,45 @@ public class GNSSActivity extends AppCompatActivity {
         atualizaLocationTextView(null);
     }
 
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    private void atualizaGNSSTextView(GnssStatus status) {
+        TextView gnssTextView = findViewById(R.id.textViewGNSS);
 
-        if (requestCode == REQUEST_LOCATION_UPDATES) {
-            if (grantResults.length == 1 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startGNSSUpdates();
-            } else {
-                Toast.makeText(this,
-                        "Sem permissão para mostrar atualizações do sistema GNSS",
-                        Toast.LENGTH_SHORT).show();
-                finish();
-            }
+        StringBuilder sb = new StringBuilder();
+        int count = status.getSatelliteCount();
+
+        sb.append("Satélites visíveis: " + count).append("\n");
+
+        for (int i=0; i < count; i++) {
+            int svid = status.getSvid(i);
+            float azimuth = status.getAzimuthDegrees(i);
+            float elevation = status.getElevationDegrees(i);
+            boolean used = status.usedInFix(i);
+            sb.append("SVID").append(svid)
+                    .append(" | Azimute: ").append(azimuth).append("°")
+                    .append(" | Elevação").append(elevation).append("°")
+                    .append(" | Usado no fix: ").append(used)
+                    .append("\n");
         }
+        textViewGNSS.setText(sb.toString());
+    }
+    private void atualizaLocationTextView(Location location) {
+        TextView locationTextView = (TextView) findViewById(R.id.textViewLocationManager);
+        if (location == null) {
+            String s = "Dados de Localização não disponíveis";
+            locationTextView.setText(s);
+            return;
+        }
+
+        String s = "Dados da última localização: \n";
+        if (location != null) {
+            s += "Latitude: " + location.getLatitude() + "\n";
+            s += "Longitude: " + location.getLongitude() + "\n";
+            s += "Altitude: " + location.getAltitude() + "\n";
+            s += "Rumo (radianos): " + location.getBearing() + "\n";
+            s += "Velocidade (m/s): " + location.getSpeed() + "\n";
+            s += "Precisão (m): " + location.getAccuracy() + "\n";
+        }
+
+        locationTextView.setText(s);
     }
 }

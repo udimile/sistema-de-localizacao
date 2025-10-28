@@ -17,8 +17,10 @@
         <activity
             android:name=".GNSSPlotActivity"
             android:exported="false" />
-        <activity android:name=".LocationActivity" />
-        <activity android:name=".GNSSActivity" />
+        <activity android:name=".GNSSActivity"
+            android:exported="false"/>
+        <activity android:name=".LocationActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
