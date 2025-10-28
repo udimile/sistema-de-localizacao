@@ -24,6 +24,7 @@ public class GNSSActivity extends AppCompatActivity {
     private LocationManager locationManager;
     LocationListener locationListener;
     GnssStatus.Callback gnssCallback;
+    private TextView textViewLocation;
     private TextView textViewGNSS;
 
     @Override
@@ -32,7 +33,8 @@ public class GNSSActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gnss);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        textViewGNSS = findViewById(R.id.textViewLocationManager);
+        textViewLocation = findViewById(R.id.textViewLocationManager);
+        textViewGNSS = findViewById(R.id.textViewGNSS);
 
         Button btnStartGNSS = findViewById(R.id.buttonStartGNSS);
         Button btnStopGNSS = findViewById(R.id.buttonStopGNSS);
