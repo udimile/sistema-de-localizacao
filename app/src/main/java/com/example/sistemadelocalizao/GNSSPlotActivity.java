@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.GnssStatus;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
-import com.google.android.gms.location.LocationListener;
 
 public class GNSSPlotActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION_UPDATES = 1;
@@ -51,9 +50,9 @@ public class GNSSPlotActivity extends AppCompatActivity {
 
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
-                    1000L,
-                    (float) 0,
-                    (android.location.LocationListener) locationListener
+                    1000,
+                    0,
+                    locationListener
             );
 
             gnssCallback = new GnssStatus.Callback() {
