@@ -123,7 +123,6 @@ public class GNSSActivity extends AppCompatActivity {
     }
 
     private void atualizaGNSSTextView(GnssStatus status) {
-        TextView gnssTextView = findViewById(R.id.textViewGNSS);
 
         StringBuilder sb = new StringBuilder();
         int count = status.getSatelliteCount();
@@ -144,7 +143,7 @@ public class GNSSActivity extends AppCompatActivity {
         textViewGNSS.setText(sb.toString());
     }
     private void atualizaLocationTextView(Location location) {
-        TextView locationTextView = (TextView) findViewById(R.id.textViewLocationManager);
+        TextView locationTextView = findViewById(R.id.textViewLocationManager);
         if (location == null) {
             String s = "Dados de Localização não disponíveis";
             locationTextView.setText(s);

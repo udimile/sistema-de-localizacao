@@ -179,7 +179,7 @@ public class GNSSView extends View {
                     float az = gnssStatus.getAzimuthDegrees(i);
                     float el = gnssStatus.getElevationDegrees(i);
                     float x = (float) (r * Math.cos(Math.toRadians(el)) * Math.sin(Math.toRadians(az)));
-                    float y = (float) (r * Math.cos(Math.toRadians(el)) * Math.cos(Math.toRadians(az)));
+                    float y = (float) (-r * Math.cos(Math.toRadians(el)) * Math.cos(Math.toRadians(az)));
 
                     if (used) {
                         paint.setStyle(Paint.Style.FILL);
